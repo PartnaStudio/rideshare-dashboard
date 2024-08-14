@@ -9,12 +9,12 @@ function Tables() {
   return (
     <Flex direction='column' pt={{ base: "120px", md: "75px" }}>
       <Authors
-        title={"Authors Table"}
+        title={"Filtered Data View"}
         captions={["Author", "Function", "Status", "Employed", ""]}
         data={tablesTableData}
       />
       <Projects
-        title={"Projects Table"}
+        title={"All Data View"}
         captions={["Companies", "Budget", "Status", "Completion", ""]}
         data={dashboardTableData}
       />

@@ -5,7 +5,7 @@ export const barChartData = [
   },
 ];
 
-export const barChartOptions = {
+export const barChartOptions = (categories) => ({
   chart: {
     toolbar: {
       show: false,
@@ -27,10 +27,10 @@ export const barChartOptions = {
     theme: "dark",
   },
   xaxis: {
-    categories: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    show: false,
+    categories: categories,
+    show: true,
     labels: {
-      show: false,
+      show: true,
       style: {
         colors: "#fff",
         fontSize: "12px",
@@ -81,7 +81,7 @@ export const barChartOptions = {
       },
     },
   ],
-};
+});
 
 export const lineChartData = [
   {
@@ -94,7 +94,7 @@ export const lineChartData = [
   },
 ];
 
-export const lineChartOptions = {
+export const lineChartOptions = (categories) => ({
   chart: {
     toolbar: {
       show: false,
@@ -102,6 +102,11 @@ export const lineChartOptions = {
   },
   tooltip: {
     theme: "dark",
+    y: {
+      formatter: (value) => { 
+        return value.toFixed(2); // Round to 2 decimal places
+      },
+    },
   },
   dataLabels: {
     enabled: false,
@@ -110,21 +115,8 @@ export const lineChartOptions = {
     curve: "smooth",
   },
   xaxis: {
-    type: "datetime",
-    categories: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ],
+    type: "category",
+    categories: categories,
     labels: {
       style: {
         colors: "#c8cfca",
@@ -132,14 +124,31 @@ export const lineChartOptions = {
       },
     },
   },
-  yaxis: {
+  yaxis: [{
     labels: {
       style: {
         colors: "#c8cfca",
         fontSize: "12px",
       },
+      formatter: (value) => { 
+        return value.toFixed(2); // Round y-axis labels to 2 decimal places
+      },
     },
   },
+  {
+    // Configuration for the second y-axis (right)
+    opposite: true, // Place this axis on the right side
+    labels: {
+      style: {
+        colors: "#c8cfca",
+        fontSize: "12px",
+      },
+      formatter: (value) => { 
+        return value.toFixed(2); // Round y-axis labels to 2 decimal places
+      },
+    },
+    // ... other configurations for the second y-axis if needed
+  },],
   legend: {
     show: false,
   },
@@ -158,7 +167,7 @@ export const lineChartOptions = {
       opacityTo: 0,
       stops: [],
     },
-    colors: ["#4FD1C5", "#2D3748"],
+    colors: ["#add8e6", "#2D3748"],
   },
-  colors: ["#4FD1C5", "#2D3748"],
-};
+  colors: ["#72bcd4", "#2D3748"],
+});

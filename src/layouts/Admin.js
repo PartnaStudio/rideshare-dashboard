@@ -18,6 +18,7 @@ import FixedPlugin from '../components/FixedPlugin/FixedPlugin';
 import MainPanel from '../components/Layout/MainPanel';
 import PanelContainer from '../components/Layout/PanelContainer';
 import PanelContent from '../components/Layout/PanelContent';
+
 export default function Dashboard(props) {
 	const { ...rest } = props;
 	// states and functions
@@ -87,27 +88,20 @@ export default function Dashboard(props) {
 	// Chakra Color Mode
 	return (
 		<ChakraProvider theme={theme} resetCss={false}>
-			<Sidebar
+		{/*<Sidebar
 				routes={routes}
-				logoText={'PURITY UI DASHBOARD'}
+				logoText={'STUDIO DASHBOARD'}
 				display='none'
 				sidebarVariant={sidebarVariant}
 				{...rest}
-			/>
+			/>*/}
 			<MainPanel
 				w={{
 					base: '100%',
 					xl: 'calc(100% - 275px)'
 				}}>
 				<Portal>
-					<AdminNavbar
-						onOpen={onOpen}
-						logoText={'PURITY UI DASHBOARD'}
-						brandText={getActiveRoute(routes)}
-						secondary={getActiveNavbar(routes)}
-						fixed={fixed}
-						{...rest}
-					/>
+
 				</Portal>
 				{getRoute() ? (
 					<PanelContent>
@@ -119,7 +113,6 @@ export default function Dashboard(props) {
 						</PanelContainer>
 					</PanelContent>
 				) : null}
-				<Footer />
 				<Portal>
 					<FixedPlugin secondary={getActiveNavbar(routes)} fixed={fixed} onOpen={onOpen} />
 				</Portal>
