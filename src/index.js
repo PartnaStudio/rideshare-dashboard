@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
+import {Route, Switch, Redirect } from "react-router-dom";
 
 import AdminLayout from "layouts/Admin.js";
 import { BrowserRouter } from "react-router-dom/cjs/react-router-dom";

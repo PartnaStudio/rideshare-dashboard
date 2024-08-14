@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Card from "components/Card/Card";
 import Chart from "react-apexcharts";
-import { barChartOptions } from "../../variables/charts";
 
 
 function BarChart({ data, value_set_one, chart_options }) { // Destructure data directly from props

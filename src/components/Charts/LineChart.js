@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
-import { lineChartOptions } from "../../variables/charts";
 
 
 function LineChart({ data, chart_options, line_data }) {

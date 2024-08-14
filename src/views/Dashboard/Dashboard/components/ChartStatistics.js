@@ -1,5 +1,4 @@
 import { Flex, Progress, Text, useColorModeValue } from "@chakra-ui/react";
-import IconBox from "components/Icons/IconBox";
 import React from "react";
 
 const ChartStatistics = ({ title, amount, icon, percentage }) => {

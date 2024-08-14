@@ -8,34 +8,17 @@ import {
   useBoolean,
   useColorModeValue,
 } from "@chakra-ui/react";
-// assets
-import peopleImage from "assets/img/people-image.png";
-import logoChakra from "assets/svg/logo-white.svg";
 import BarChart from "components/Charts/BarChart";
 import LineChart from "components/Charts/LineChart";
-// Custom icons
-import {
-  CartIcon,
-  DocumentIcon,
-  GlobeIcon,
-  WalletIcon,
-} from "components/Icons/Icons.js";
 import React, { useCallback, useEffect, useState } from "react";
 import ActiveUsers from "./components/ActiveUsers";
-import BuiltByDevelopers from "./components/BuiltByDevelopers";
 import MiniStatistics from "./components/MiniStatistics";
-import OrdersOverview from "./components/OrdersOverview";
 import SalesOverview from "./components/SalesOverview";
-import WorkWithTheRockets from "./components/WorkWithTheRockets";
 import turoData from '../../../data/base_miami_data.json';
 import { MdPriceCheck } from "react-icons/md";
 import { PiSteeringWheelFill } from "react-icons/pi";
 import { FaCar } from "react-icons/fa";
 import { IoCalendarNumber } from "react-icons/io5";
-import Authors from "../Tables/components/Authors";
-import Projects from "../Tables/components/Projects";
-import { tablesTableData, dashboardTableData } from "../../../variables/general";
-import Tables from "../Tables";
 import { lineChartOptions, barChartOptions } from "../../../variables/charts";
 
 

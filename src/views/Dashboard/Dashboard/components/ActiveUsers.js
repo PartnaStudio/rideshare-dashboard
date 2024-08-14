@@ -11,7 +11,6 @@ import {
   WalletIcon,
 } from "components/Icons/Icons.js";
 import React, { useState } from "react";
-import Slider from "react-slick";
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import ChartStatistics from "./ChartStatistics";
 
