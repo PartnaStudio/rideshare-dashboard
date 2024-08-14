@@ -109,9 +109,7 @@ export default function Dashboard(props) {
 						</PanelContainer>
 					</PanelContent>
 				) : null}
-				<Portal>
-					<FixedPlugin secondary={getActiveNavbar(routes)} fixed={fixed} onOpen={onOpen} />
-				</Portal>
+
 				<Configurator
 					secondary={getActiveNavbar(routes)}
 					isOpen={isOpen}
