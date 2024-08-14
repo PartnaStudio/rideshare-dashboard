@@ -20,6 +20,7 @@ import { PiSteeringWheelFill } from "react-icons/pi";
 import { FaCar } from "react-icons/fa";
 import { IoCalendarNumber } from "react-icons/io5";
 import { lineChartOptions, barChartOptions } from "../../../variables/charts";
+import TopDash from "./components/MainDash";
 
 
 export default function Dashboard() {
@@ -36,6 +37,7 @@ export default function Dashboard() {
   const [slineChartOptions, setLineChartOptions] = useState({});
   const [carDataName, setCarDataName] = useState([]);
   const [carDataTrips, setCarDataTrips] = useState([]);
+  const [carDataPrice, setCarDataPrice] = useState([]);
 
   useEffect(() => {
     if (turoData && turoData.turo_data && turoData.turo_data.rankings) {
@@ -53,7 +55,7 @@ export default function Dashboard() {
           break;
         default:
           console.error("Invalid activeButton:", activeButton);
-          return; // Or handle the error in another way
+          return; 
       }
 
       setBarChartData([
@@ -66,16 +68,16 @@ export default function Dashboard() {
         {
           name: "Daily Price",
           data: Object.values(currentRanking?.avgDailyRate || []),
-        },
-        {
-          name: "Trip Count",
-          data: Object.values(currentRanking?.trip_count || []),
-        },
+        }
       ]);
       setBarChartOptions(barChartOptions(Object.values(currentRanking?.[activeButton] || [])));
       setLineChartOptions(lineChartOptions(Object.values(currentRanking?.[activeButton] || [])));
       setCarDataName(Object.values(currentRanking?.[activeButton] || []));
       setCarDataTrips(Object.values(currentRanking?.trip_count || []));
+      setCarDataPrice(
+        Object.values(currentRanking?.avgDailyRate || [])
+          .map(value => parseFloat(value).toFixed(2))
+      );
     }
   }, [activeButton, turoData]);
   
@@ -144,13 +146,13 @@ export default function Dashboard() {
         </Button>
       </SimpleGrid>
       <Grid
-        templateColumns={{ sm: "1fr", lg: "1.3fr 1.7fr" }}
+        templateColumns={{ sm: "1fr", lg: "1.5fr 1.5fr" }}
         templateRows={{ sm: "repeat(2, 1fr)", lg: "1fr" }}
         gap='24px'
         my='26px'
         mb={{ lg: "26px" }}>
-        <ActiveUsers
-          title={"Number of Completed Trips by Make"}
+        <TopDash
+          title={"Number of Trips Completed"}
           percentage={1}
           chart={<BarChart 
             data={turoData}
@@ -162,14 +164,17 @@ export default function Dashboard() {
           car_data_name={carDataName}
 
         />
-        <SalesOverview
-          title={"Number of Trips Completed vs. Daily Rental Price"}
+        <TopDash
+          title={"Daily Rental Price"}
           percentage={1}
-          chart={<LineChart 
+          chart={<BarChart 
             data={turoData} 
-            chart_options={slineChartOptions}
-            line_data = {lineChartData}
+            chart_options={sbarChartOptions}
+            value_set_one = {lineChartData}
             />}
+            data={turoData}
+            car_data_trips={carDataPrice}
+            car_data_name={carDataName}
         />
       </Grid>
 

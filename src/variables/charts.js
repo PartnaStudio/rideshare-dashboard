@@ -25,6 +25,11 @@ export const barChartOptions = (categories) => ({
       },
     },
     theme: "dark",
+    y: {
+      formatter: (value) => { 
+        return value.toFixed(2); // Round to 2 decimal places
+      },
+    },
   },
   xaxis: {
     categories: categories,
@@ -35,6 +40,7 @@ export const barChartOptions = (categories) => ({
         colors: "#fff",
         fontSize: "12px",
       },
+      
     },
     axisBorder: {
       show: false,
@@ -51,6 +57,9 @@ export const barChartOptions = (categories) => ({
       style: {
         colors: "#fff",
         fontSize: "14px",
+      },
+      formatter: (value) => { 
+        return value.toFixed(0); // Round y-axis labels to 2 decimal places
       },
     },
   },
