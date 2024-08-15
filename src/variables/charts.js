@@ -1,9 +1,131 @@
+import turoData from '../data/elevated_miami_data.json';
+
 export const barChartData = [
   {
     name: "Sales",
-    data: [330, 250, 110, 300, 490, 350, 270, 130, 425],
+    data: [330],
   },
 ];
+
+export const summaruPieChartOptions = (categories, data, label) => ({
+  chart: {
+    type: 'pie',
+    toolbar: {
+      show: false,
+    },
+  },
+  legend: {
+    show: false,
+    display: true,
+    position: 'top', 
+  },
+  tooltip: {
+    enabled: true,
+    style: {
+      fontSize: '12px',
+      fontFamily: undefined,
+      color: 'black' // Set the tooltip text color to black
+    }
+  },
+  dataLabels: {
+    enabled: true,
+  },
+  labels: categories,
+  series: data,
+  stroke: { // Add stroke configuration
+    show: true, // Hide the border around pie slices
+    colors: '#64B5F6',
+  },
+  colors: [
+    '#E0E0E0',
+  ], 
+});
+
+
+
+export const summaruBarChartOptions = (categories, position, label) => ({
+  chart: {
+    toolbar: {
+      show: false,
+    },
+  },
+  legend: {
+    show: true,
+    display: true,
+    position: 'top', 
+  },
+  tooltip: {
+    enabled: false, 
+  },
+  dataLabels: {
+    enabled: false,
+  },
+  plotOptions: {
+    bar: {
+      horizontal: true,
+      borderRadius: 0,
+      columnWidth: "30px",
+    },
+  },
+  xaxis: {
+    categories: categories,
+    labels: {
+      style: {
+        colors: "#fff", // Darker text color for better contrast on the light gray background
+        fontSize: "12px",
+      },
+      show: true
+    },
+    axisBorder: {
+      show: false,
+    },
+    axisTicks: {
+      show: true,
+    },
+  },
+  yaxis: {
+    show: true,
+    labels: {
+      style: {
+        colors: "#fff", // Darker text color for better contrast on the light gray background
+        fontSize: "12px",
+      },
+      
+      show: true
+    },
+    axisBorder: {
+      show: false,
+    },
+    axisTicks: {
+      show: false,
+    },
+  },
+  grid: {
+    show: false,
+  },
+  fill: {
+    colors: ["#fff", "#fff"], // Lighter shades of gray for the bars
+  },
+  annotations: { 
+    xaxis: [
+      {
+        x: position, 
+        borderColor: '#00E396', // Keep the original color for the annotation line
+        strokeDashArray: 0, 
+        borderWidth: 3, 
+        label: {
+          borderColor: '#00E396',
+          style: {
+            color: '#000',
+            background: '#00E396',
+          },
+        }
+      }
+    ]
+  },
+});
+
+
 
 export const barChartOptions = (categories) => ({
   chart: {

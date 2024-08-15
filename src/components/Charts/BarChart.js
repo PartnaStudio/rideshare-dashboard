@@ -9,15 +9,8 @@ function BarChart({ data, value_set_one, chart_options }) { // Destructure data 
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Check if data is available and has the expected structure
-    if (data && data.turo_data && data.turo_data.rankings && data.turo_data.rankings.pop_make) {
-      setBarChartData(value_set_one);
-    } else {
-      console.error("Invalid or missing data prop for BarChart component");
-    }
-
-    setIsLoading(false); // Set isLoading to false after data processing, regardless of success or error
-  }, [data]); // Run this effect whenever the 'data' prop changes
+    setIsLoading(false); 
+  }, [value_set_one]); 
 
   return (
     <Card

@@ -25,7 +25,7 @@ import BuiltByDevelopers from "../Dashboard/components/BuiltByDevelopers";
 import MiniStatistics from "../Dashboard/components/MiniStatistics";
 import OrdersOverview from "../Dashboard/components/OrdersOverview";
 import Projects from "../Dashboard/components/Projects";
-import SalesOverview from "../Dashboard/components/SalesOverview";
+import SalesOverview from "../Dashboard/components/DataOverview";
 import WorkWithTheRockets from "../Dashboard/components/WorkWithTheRockets";
 
 export default function Dashboard() {

@@ -1,5 +1,5 @@
 // Chakra imports
-import { Box, Flex, Grid, Text, useColorModeValue } from "@chakra-ui/react";
+import { Box, Flex, Grid, Text, useBreakpointValue, useColorModeValue } from "@chakra-ui/react";
 // Custom components
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
@@ -10,7 +10,7 @@ import BarChartOld from "components/Charts/BarChartOld";
 import turoData from '../../../../data/elevated_miami_data.json';
 import PieChart from "components/Charts/PieChart";
 
-const SalesOverview = ({ title, percentage, activeButton }) => {
+const DataOverview = ({ title, percentage, activeButton }) => {
   const textColor = useColorModeValue("gray.700", "white");
   
   const [dailyAmount, setDailyAmount] = useState(0);
@@ -62,7 +62,7 @@ const SalesOverview = ({ title, percentage, activeButton }) => {
       setSimpleBarChartData([
         {
           name: "Trip Count",
-          data: Object.values([currentMakeRanking?.avgDailyRate[0]
+          data: Object.values([currentMakeRanking?.avgDailyRate
             ] || []),
         },
       ]);
@@ -105,52 +105,47 @@ const SalesOverview = ({ title, percentage, activeButton }) => {
     }
   }, [activeButton, turoData]);
 
+  const showPieChart = useBreakpointValue({ base: false, lg: true });
+
   
   return (
     <Card p='10px' mb={{ sm: "26px", lg: "0px" }}>
-      <Box w='100%' h={{ sm: "675px", md: "330px",lg: "150px" }} ps='8px'>
+      <Box w='100%' h={{ sm: "220px", md: '300px', lg: "220px" }} ps='8px'>
       <Grid
-        templateColumns={{ sm: "repeat(1, 1fr)",md: "repeat(2, 1fr)", lg: "repeat(4, 1fr)" }}
-        templateRows={{ sm: "repeat(4, 1fr)", lg: "1fr" }}
+        templateColumns={{ sm: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }}
+        templateRows={{ sm: "repeat(3, 1fr)", lg: "1fr" }}
         gap='24px'
         my='0px'
         mb={{ lg: "26px" }}>
-        <BarChartOld 
+        <PieChart 
             value_set_one={simpleBarChartData || []}
-          labels = {[labelName[0], `Average`]}
-          chart_options={summaruBarChartOptions(
+          labels = {[labelName[0], `Pie Chart 1`]}
+          chart_options={summaruPieChartOptions(
             labelName, 
             dailyAmount, 
             `Average ${(activeButton.charAt(0).toUpperCase() + activeButton.slice(1))}`
           )}
           />
-        <BarChartOld 
+        <PieChart 
           value_set_one={simpleModelBarChartData}
-          chart_options={summaruBarChartOptions(
+          chart_options={summaruPieChartOptions(
               modelLabelName, 
               dailyAmount, 
               `Average ${(activeButton.charAt(0).toUpperCase() + activeButton.slice(1))}`
             )}
-          labels = {[labelName[0], `Average`]}
+          labels = {[labelName[0], `Pie Chart 2`]}
           />
-        <BarChartOld 
+        {showPieChart && ( // Conditionally render the PieChart
+        <PieChart
           value_set_one={simpleTypeBarChartData}
-          chart_options={summaruBarChartOptions(
+          chart_options={summaruPieChartOptions(
             typeLabelName, 
             dailyAmount, 
             `Average ${(activeButton.charAt(0).toUpperCase() + activeButton.slice(1))}`
           )}
-        labels = {[labelName[0], `Average`]}
+          labels={[labelName[0], `Pie Chart 3`]}
         />
-        <BarChartOld 
-          value_set_one={simpleYearBarChartData}
-          chart_options={summaruBarChartOptions(
-            yearLabelName, 
-            dailyAmount, 
-            `Average ${(activeButton.charAt(0).toUpperCase() + activeButton.slice(1))}`
-          )}
-        labels = {[labelName[0], `Average`]}
-        />
+      )}
           
           
       </Grid>
@@ -160,4 +155,4 @@ const SalesOverview = ({ title, percentage, activeButton }) => {
   );
 };
 
-export default SalesOverview;
+export default DataOverview;
