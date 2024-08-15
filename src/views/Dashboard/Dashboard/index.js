@@ -144,7 +144,6 @@ export default function Dashboard() {
           activeButton={activeButton}
         />
        
-       
       </Grid>
 
       
@@ -182,7 +181,6 @@ export default function Dashboard() {
         />
       </Grid>
       
-      <Tables />
     </Flex>
   );
 }
