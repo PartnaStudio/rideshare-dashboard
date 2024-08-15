@@ -37,9 +37,12 @@ const Projects = ({ title, captions, data }) => {
     return hasDataInRow ? row : null; 
   }
 
+  const maxLength = Math.max(...Object.values(data).map(arr => arr.length)); // Find the longest column
+
+
 
   return (
-    <Card my='22px' overflowX={{ sm: "scroll", xl: "scroll" }} overflowY={{ sm: "scroll", xl: "scroll" }}>
+    <Card my='22px' overflowX={{ sm: "scroll", xl: "scroll" }} maxHeight="900px" overflowY={{ sm: "scroll", xl: "scroll" }}>
       <CardHeader p='6px 0px 22px 0px'>
         <Flex direction='column'>
           <Text fontSize='lg' color={textColor} fontWeight='bold' pb='.5rem'>
@@ -47,9 +50,10 @@ const Projects = ({ title, captions, data }) => {
           </Text>
         </Flex>
       </CardHeader>
-      <CardBody>
+          
+          <CardBody>
         <Table variant='simple' color={textColor}>
-          <Thead>
+          <Thead position="sticky" top={0} bg={useColorModeValue("gray.50", "gray.800")} zIndex={1}>
             <Tr my='.8rem' pl='0px'>
               {captions.map((caption, idx) => {
                 return (
@@ -61,33 +65,36 @@ const Projects = ({ title, captions, data }) => {
             </Tr>
           </Thead>
           <Tbody>
-            {Object.keys(data).slice(0,10).map((_, index) => {
-              const row = transposeToRow(data, index);
-              console.log(row)
-              return (
-                <DashboardTableRow
-                  {...row}
-                  key={`${index}`}
-                  availability={row?.availability}
-                  completedTrips={row?.completedTrips}
-                  estimatedQuote={row?.estimatedQuote} 
-                  hostId={row?.hostId}
-                  id={row?.id} 
-                  isAllStarHost={row?.isAllStarHost} 
-                  isFavoritedBySearcher={row?.isFavoritedBySearcher} 
-                  isNewListing={row?.isNewListing} 
-                  make={row?.make} 
-                  model={row?.model} 
-                  rating={row?.rating} 
-                  seoCategory={row?.seoCategory} 
-                  type={row?.type} 
-                  year={row?.year} 
-                  avgDailyAmount={row?.avgDailyAmount} 
-                  cityLocation={row?.cityLocation} 
-                  unlimitedMiles={row?.unlimitedMiles} 
-                />
-              );
-            })}
+          {
+  
+            Array.from({ length: Math.min(100, 500) }) // Create an array for iteration
+              .map((_, index) => {
+                const row = transposeToRow(data, index);
+                return row ? (
+                  <DashboardTableRow
+                      {...row}
+                      key={`${index}`}
+                      availability={row?.availability}
+                      completedTrips={row?.completedTrips}
+                      estimatedQuote={row?.estimatedQuote} 
+                      hostId={row?.hostId}
+                      id={row?.id} 
+                      isAllStarHost={row?.isAllStarHost} 
+                      isFavoritedBySearcher={row?.isFavoritedBySearcher} 
+                      isNewListing={row?.isNewListing} 
+                      make={row?.make} 
+                      model={row?.model} 
+                      rating={row?.rating} 
+                      seoCategory={row?.seoCategory} 
+                      type={row?.type} 
+                      year={row?.year} 
+                      avgDailyAmount={row?.avgDailyAmount} 
+                      cityLocation={row?.cityLocation} 
+                      unlimitedMiles={row?.unlimitedMiles} 
+                    />
+                ) : null;
+              })
+          }
           </Tbody>
         </Table>
       </CardBody>
@@ -96,3 +103,4 @@ const Projects = ({ title, captions, data }) => {
 };
 
 export default Projects;
+

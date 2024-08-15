@@ -8,7 +8,6 @@ import turoData from '../../../data/elevated_miami_data.json';
 
 function Tables(fullKeys) {
   // console.log("Rental Car Data",Object.keys(turoData.turo_data.rental_data))
-  console.log(fullKeys)
   return (
     <Flex direction='column' pt={{ base: "120px", md: "75px" }}>
       {/*<Authors

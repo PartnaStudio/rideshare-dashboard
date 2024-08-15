@@ -38,8 +38,8 @@ function PieChart({ value_set_one, chart_options, labels }) { // Destructure dat
 
       <Chart
         options={chart_options}
-        series={[30, 50, 20]}
-        type="pie"
+        series={value_set_one}
+        type="donut"
         width="100%"
         height="100%"
       />

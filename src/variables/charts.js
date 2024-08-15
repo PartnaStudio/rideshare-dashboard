@@ -7,7 +7,7 @@ export const barChartData = [
   },
 ];
 
-export const summaruPieChartOptions = (categories, data, label) => ({
+export const summaruPieChartOptions = (categories) => ({
   chart: {
     type: 'pie',
     toolbar: {
@@ -15,29 +15,34 @@ export const summaruPieChartOptions = (categories, data, label) => ({
     },
   },
   legend: {
-    show: false,
+    show: true,
     display: true,
-    position: 'top', 
+    position: 'bottom', 
   },
   tooltip: {
-    enabled: true,
-    style: {
-      fontSize: '12px',
-      fontFamily: undefined,
-      color: 'black' // Set the tooltip text color to black
-    }
+    enabled: false,
+    colors: ['black'],
   },
   dataLabels: {
     enabled: true,
+
+    style: {
+      fontSize: '12px',
+      colors: ['black'] // Set data label color to black
+    },
+    dropShadow: {
+      enabled: false // Disable drop shadow for better centering
+    }
   },
   labels: categories,
-  series: data,
   stroke: { // Add stroke configuration
     show: true, // Hide the border around pie slices
     colors: '#64B5F6',
   },
   colors: [
-    '#E0E0E0',
+    '#ffffff',
+    '#f6f6f6',
+    '#fafafa'
   ], 
 });
 

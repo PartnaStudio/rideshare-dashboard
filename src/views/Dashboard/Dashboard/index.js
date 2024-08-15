@@ -143,14 +143,14 @@ export default function Dashboard() {
           percentage={1}
           activeButton={activeButton}
         />
-        
-      </Grid>
-
-      {/*<DataOverview
+        <DataOverview
         title={"Number of Trips Completed"}
         percentage={1}
         activeButton={activeButton}
-        />*/}
+        />
+      </Grid>
+
+      
 
       <Grid
         templateColumns={{ sm: "1fr", lg: "1.5fr 1.5fr" }}

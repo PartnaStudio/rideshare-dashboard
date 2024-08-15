@@ -5,152 +5,164 @@ import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import React, { useEffect, useState } from "react";
 import { barChartData, barChartOptions, summaruBarChartOptions, summaruPieChartOptions } from "../../../../variables/charts";
-import BarChart from "../../../../components/Charts/BarChart";
-import BarChartOld from "components/Charts/BarChartOld";
 import turoData from '../../../../data/elevated_miami_data.json';
 import PieChart from "components/Charts/PieChart";
+
+function filterTuroBaseByMake(turoBase, makeToFilter = 'Ford') {
+  // 1. Find the maximum length among all arrays in turoBase
+  const maxLength = Math.max(...Object.values(turoBase).map(arr => Array.isArray(arr) ? arr.length : 0));
+
+  // 2. Fill in missing values with blanks (or another suitable default)
+  for (const [key, values] of Object.entries(turoBase)) {
+    if (Array.isArray(values)) {
+      while (values.length < maxLength) {
+        values.push(''); // Or 0, null, etc., depending on the data type
+      }
+    }
+  }
+
+  // 3. Apply the filtering logic with case-insensitive comparison and trimming
+  const filteredTuroBase = {};
+
+  for (const [key, values] of Object.entries(turoBase)) {
+    if (Array.isArray(values)) {
+      filteredTuroBase[key] = values.filter((value, index) => 
+        turoBase.make[index]?.toLowerCase().trim() === makeToFilter.toLowerCase().trim()
+      );
+    } else {
+      // Copy non-array values directly
+      filteredTuroBase[key] = values; 
+    }
+  }
+
+  return filteredTuroBase;
+}
+
 
 const DataOverview = ({ title, percentage, activeButton }) => {
   const textColor = useColorModeValue("gray.700", "white");
   
   const [dailyAmount, setDailyAmount] = useState(0);
-  const [simpleBarChartData, setSimpleBarChartData] = useState([]);
-  const [simpleModelBarChartData, setModelSimpleBarChartData] = useState([]);
-  const [simpleTypeBarChartData, setTypeSimpleBarChartData] = useState([]);
-  const [simpleYearBarChartData, setYearSimpleBarChartData] = useState([]);
+  const [simplePieChartData, setSimplePieChartData] = useState([]);
 
   const [labelName, setLabelName] = useState([]);
-  const [ yearLabelName, setYearLabelName] = useState([]);
-  const [ modelLabelName, setModelLabelName] = useState([]);
-  const [ typeLabelName, setTypeLabelName] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     if (turoData && turoData.turo_data && turoData.turo_data.rankings) {
       let currentMakeRanking;
-      let currentModelRanking;
-      let currentTypeRanking;
-      let currentYearRanking;
       let turoBase;
-      // Dynamically access the ranking property based on activeButton
+      let filtered;      // Dynamically access the ranking property based on activeButton
       currentMakeRanking = turoData.turo_data.rankings[`pop_make`];
-      currentModelRanking = turoData.turo_data.rankings[`pop_model`];
-      currentTypeRanking = turoData.turo_data.rankings[`pop_type`];
-      currentYearRanking = turoData.turo_data.rankings[`pop_year`];
       turoBase = turoData.turo_data.rental_data;
+      filtered = filterTuroBaseByMake(turoBase)
       if (!turoBase) {
         console.error("Invalid activeButton or missing ranking data:", activeButton);
         return;
-      }
+      };
+      console.log("Filtered", filtered)
 
-      const avgDailyAmountArr = 
-      turoData && 
-      turoData.turo_data && 
-      turoData.turo_data.rental_data && 
-      Array.isArray(turoBase.avgDailyAmount) 
-        ? turoBase.avgDailyAmount 
-        : []; 
+      const fordEntry = Object.entries(currentMakeRanking?.make)?.find(([key, value]) => value === "Ford");
+      const fordTripCount = fordEntry ? currentMakeRanking?.trip_count[fordEntry[0]] : 0;
+      const totalTripCounts = Object.values(currentMakeRanking?.trip_count).reduce((sum, count) => {
+          if (typeof count === 'number') {
+            return sum + count;
+          } else {
+            return sum; // Ignore non-numeric values
+          }
+        }, 0);
 
-    const averageDailyAmount = 
-      avgDailyAmountArr.length > 0 
-        ? avgDailyAmountArr.reduce((sum, value) => sum + parseFloat(value), 0) / avgDailyAmountArr.length
-        : 0; 
 
-        const avgAvg = (dailyAmount?.length > 0) 
-        ? dailyAmount.reduce((sum, value) => sum + parseFloat(value), 0) / dailyAmount.length 
-        : 30;
-      setDailyAmount(avgAvg)
-      setSimpleBarChartData([
-        {
-          name: "Trip Count",
-          data: Object.values([currentMakeRanking?.avgDailyRate
-            ] || []),
-        },
-      ]);
-      setModelSimpleBarChartData([
-        {
-          name: "Trip Count",
-          data: Object.values([currentModelRanking?.avgDailyRate
-            [0]] || []),
-        },
-      ]);
-      setTypeSimpleBarChartData([
-        {
-          name: "Trip Count",
-          data: Object.values([currentTypeRanking?.avgDailyRate
-            [0]] || []),
-        },
-      ]);
-      setYearSimpleBarChartData([
-        {
-          name: "Trip Count",
-          data: Object.values([currentYearRanking?.avgDailyRate
-            [0]] || []),
-        },
-      ]);
+        setSimplePieChartData([
+          {
+            data: Object.values([fordTripCount, (totalTripCounts - fordTripCount)] || []),
+          },
+        ]);
 
       const values = Object.values(currentMakeRanking?.make || {}); // Provide an empty object as default
-      const Yearvalues = Object.values(currentYearRanking?.year || {});
-      const Typevalues = Object.values(currentTypeRanking?.type || {});
-      const Modelvalues = Object.values(currentModelRanking?.model || {});
       if (values.length > 0) {
-          setLabelName([values[0]]);
-          setYearLabelName([Yearvalues[0]]);
-          setTypeLabelName([Typevalues[0]]);
-          setModelLabelName([Modelvalues[0]]);
+          setLabelName([values[0],'Other']);
       } else {
           // Handle the case where there are no values
           console.error("No values found in currentRanking[activeButton]");
           setLabelName([]); // Or another suitable default
       }
     }
+    setIsLoading(false);
   }, [activeButton, turoData]);
 
-  const showPieChart = useBreakpointValue({ base: false, lg: true });
+  useEffect(() => {
+    if (simplePieChartData && simplePieChartData.length > 0 && simplePieChartData[0].data) { 
+      console.log("DATA", simplePieChartData[0].data)
+    }
+  }, [simplePieChartData]);
+
+  const showPieChart = useBreakpointValue({ base: false, sm: false, md: true, lg: true });
+  const showMdPieChart = useBreakpointValue({ base: false, sm: false, md: false, lg: true });
 
   
   return (
     <Card p='10px' mb={{ sm: "26px", lg: "0px" }}>
-      <Box w='100%' h={{ sm: "220px", md: '300px', lg: "220px" }} ps='8px'>
+      {isLoading ? (
+        <div>Loading...</div>
+      ):(<Box w={{ sm: "100%", md: '100%', lg: "100%" }} h={{ sm: "220px", md: '300px', lg: "220px" }} ps='8px'>
+      
       <Grid
-        templateColumns={{ sm: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }}
+        templateColumns={{ sm: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(5, 1fr)" }}
         templateRows={{ sm: "repeat(3, 1fr)", lg: "1fr" }}
         gap='24px'
         my='0px'
         mb={{ lg: "26px" }}>
         <PieChart 
-            value_set_one={simpleBarChartData || []}
-          labels = {[labelName[0], `Pie Chart 1`]}
+          value_set_one={simplePieChartData[0].data || []}
           chart_options={summaruPieChartOptions(
-            labelName, 
-            dailyAmount, 
-            `Average ${(activeButton.charAt(0).toUpperCase() + activeButton.slice(1))}`
+            labelName 
           )}
+          labels = {[labelName[0], `Trips Completed`]}
           />
+        {showPieChart && ( 
+        <>
         <PieChart 
-          value_set_one={simpleModelBarChartData}
+          value_set_one={simplePieChartData[0].data || []}
           chart_options={summaruPieChartOptions(
-              modelLabelName, 
-              dailyAmount, 
-              `Average ${(activeButton.charAt(0).toUpperCase() + activeButton.slice(1))}`
-            )}
-          labels = {[labelName[0], `Pie Chart 2`]}
-          />
-        {showPieChart && ( // Conditionally render the PieChart
-        <PieChart
-          value_set_one={simpleTypeBarChartData}
-          chart_options={summaruPieChartOptions(
-            typeLabelName, 
-            dailyAmount, 
-            `Average ${(activeButton.charAt(0).toUpperCase() + activeButton.slice(1))}`
+            labelName 
           )}
-          labels={[labelName[0], `Pie Chart 3`]}
+          labels = {[labelName[0], `Models Breakdown`]}
+          />
+
+         {showMdPieChart && ( 
+          <>
+          <PieChart
+          value_set_one={simplePieChartData[0].data || []}
+          chart_options={summaruPieChartOptions(
+            labelName 
+          )}
+          labels={[labelName[0], `Price Breakdown`]}
         />
+        <PieChart
+          value_set_one={simplePieChartData[0].data || []}
+          chart_options={summaruPieChartOptions(
+            labelName 
+          )}
+          labels={[labelName[0], `Year Breakdown`]}
+        />
+        <PieChart
+          value_set_one={simplePieChartData[0].data || []}
+          chart_options={summaruPieChartOptions(
+            labelName 
+          )}
+          labels={[labelName[0], `Type Breakdown`]}
+        />
+        </>
+        )}
+        </>
       )}
           
           
       </Grid>
       
-      </Box>
+      </Box>)}
     </Card>
   );
 };
