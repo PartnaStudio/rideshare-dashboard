@@ -17,30 +17,17 @@ export const summaruPieChartOptions = (categories) => ({
   legend: {
     show: true,
     display: true,
-    position: 'bottom', 
-  },
-  tooltip: {
-    enabled: false,
-    colors: ['black'],
+    position: 'top', // Match the BarChart legend position
   },
   dataLabels: {
-    enabled: true,
-
-    style: {
-      fontSize: '12px',
-      colors: ['black'] // Set data label color to black
-    },
-    dropShadow: {
-      enabled: false // Disable drop shadow for better centering
-    }
+    enabled: false, // Disable data labels on slices, similar to BarChart
   },
   labels: categories,
-  stroke: { // Add stroke configuration
-    show: true, // Hide the border around pie slices
-    colors: '#64B5F6',
+  stroke: {
+    show: false, // Hide the border around pie slices, like BarChart
   },
   colors: [
-    '#ffffff',
+    '#fff', 
     '#f6f6f6',
     '#fafafa'
   ], 

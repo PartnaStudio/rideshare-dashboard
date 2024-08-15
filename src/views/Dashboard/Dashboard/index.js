@@ -23,6 +23,7 @@ import { IoCalendarNumber } from "react-icons/io5";
 import { lineChartOptions, barChartOptions, summaruBarChartOptions } from "../../../variables/charts";
 import TopDash from "./components/MainDash";
 import Tables from "../Tables";
+import MapDataOverview from "./components/MapOverview";
 
 
 export default function Dashboard() {
@@ -139,6 +140,11 @@ export default function Dashboard() {
         my='0px'
         mb={{ lg: "26px" }}>
         <SalesOverview
+          title={"Number of Trips Completed"}
+          percentage={1}
+          activeButton={activeButton}
+        />
+        <MapDataOverview 
           title={"Number of Trips Completed"}
           percentage={1}
           activeButton={activeButton}

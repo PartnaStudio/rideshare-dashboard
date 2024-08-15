@@ -1,0 +1,14 @@
+.leaflet-container {
+    font-family: 'Uber Move', sans-serif; /* Use Uber's custom font if available */
+  }
+  
+  .leaflet-control-container .leaflet-control {
+    background-color: rgba(255, 255, 255, 0.8); /* Adjust control background opacity */
+    border-radius: 5px; /* Add rounded corners to controls */
+  }
+  
+  .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+    background-color: #fff; /* White background for popups */
+    border-radius: 8px; /* Rounded corners for popups */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Subtle shadow for popups */
+  }

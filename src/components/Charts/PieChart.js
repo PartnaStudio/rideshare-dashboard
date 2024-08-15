@@ -11,8 +11,37 @@ function PieChart({ value_set_one, chart_options, labels }) { // Destructure dat
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(false); 
-  }, [value_set_one]); 
+    // Update chartOptions with custom tooltip when data is available
+    if (value_set_one && labels) {
+      setChartOptions({
+        ...chart_options, // Merge with existing options
+        tooltip: {
+          enabled: false,
+          custom: function ({ series, seriesIndex, dataPointIndex, w }) {
+            if (w.globals.tooltip && w.globals.tooltip.markup) {
+              const currentDataPoint = series[seriesIndex][dataPointIndex];
+              const categoryName = labels[dataPointIndex + 1]; // Assuming labels are 0-indexed
+              const percentage = ((currentDataPoint / series[seriesIndex].reduce((a, b) => a + b, 0)) * 100).toFixed(2);
+
+              return w.globals.tooltip.markup
+                .replace(/fill="(.+?)"/g, 'fill="#000"')
+                .replace(/color="(.+?)"/g, 'color="#fff"')
+                .replace(/(<div .+?<\/div>)/, // Replace the entire default content
+                        `<div style="background-color: #fill; color: #fff; padding: 5px; border-radius: 3px;">
+                          <p><strong>${categoryName}</strong></p>
+                          <p>Value: ${currentDataPoint}</p>
+                          <p>Percentage: ${percentage}%</p>
+                        </div>`);
+            } else {
+              return '<div style="background-color: #00E396; color: #000; padding: 5px; border-radius: 3px;">Tooltip content loading...</div>';
+            }
+          },
+        },
+      });
+    }
+
+    setIsLoading(false);
+  }, [value_set_one, labels, chart_options]); 
 
   return (
     <Card
@@ -37,7 +66,7 @@ function PieChart({ value_set_one, chart_options, labels }) { // Destructure dat
   </Flex>
 
       <Chart
-        options={chart_options}
+        options={chartOptions}
         series={value_set_one}
         type="donut"
         width="100%"
