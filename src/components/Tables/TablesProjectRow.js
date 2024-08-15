@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Tr,
   Td,
@@ -12,49 +12,63 @@ import {
 import { FaEllipsisV } from "react-icons/fa";
 
 function DashboardTableRow(props) {
-  const { logo, name, status, budget, progression } = props;
+  const { 
+    availability,
+    completedTrips,
+    estimatedQuote,
+    hostId,
+    id,
+    isAllStarHost,
+    isFavoritedBySearcher,
+    isNewListing,
+    make,
+    model,
+    rating,
+    seoCategory,
+    type,
+    year,
+    avgDailyAmount,
+    cityLocation,
+    unlimitedMiles
+  } = props;
+
   const textColor = useColorModeValue("gray.700", "white");
+
+  // Calculate progression based on completedTrips (you'll likely need to adjust this logic)
+  const totalPossibleTrips = 100; // Or fetch this value from your data
+  const progression = useMemo(() => (completedTrips / totalPossibleTrips) * 100, [completedTrips]); 
+  const tableData = {
+    id: id || '-', // If 'id' is undefined, use '-' instead
+    make: make || '-',
+    model: model || '-',
+    year: year || '-',
+    type: type || '-',
+    avgDailyAmount: avgDailyAmount || '-',
+    cityLocation: cityLocation || '-',
+    availability: availability || '-',
+    unlimitedMiles: unlimitedMiles ? "Yes" : "No",
+    completedTrips: completedTrips || '-',
+    estimatedQuote: estimatedQuote || '-',
+    rating: rating || '-',
+    hostId: hostId || '-',
+    isAllStarHost: isAllStarHost ? "Yes" : "No",
+    isFavoritedBySearcher: isFavoritedBySearcher ? "Yes" : "No",
+    isNewListing: isNewListing ? "Yes" : "No",
+    seoCategory: seoCategory || '-'
+};
+
   return (
     <Tr>
-      <Td minWidth={{ sm: "250px" }} pl="0px">
-        <Flex alignItems="center" py=".8rem" minWidth="100%" flexWrap="nowrap">
-          <Icon as={logo} h={"24px"} w={"24px"} me="18px" />
-          <Text
-            fontSize="md"
-            color={textColor}
-            fontWeight="bold"
-            minWidth="100%"
-          >
-            {name}
-          </Text>
-        </Flex>
-      </Td>
-      <Td>
-        <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
-          {budget}
-        </Text>
-      </Td>
-      <Td>
-        <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
-          {status}
-        </Text>
-      </Td>
-      <Td>
-        <Flex direction="column">
-          <Text
-            fontSize="md"
-            color="teal.300"
-            fontWeight="bold"
-            pb=".2rem"
-          >{`${progression}%`}</Text>
-          <Progress
-            colorScheme={progression === 100 ? "teal" : "cyan"}
-            size="xs"
-            value={progression}
-            borderRadius="15px"
-          />
-        </Flex>
-      </Td>
+      {Object.entries(tableData).map(([key, item]) => (
+        <Td key={key} style={{color: 'black'}}>
+          {item}
+        </Td>
+      ))}
+
+
+
+
+      {/* Actions */}
       <Td>
         <Button p="0px" bg="transparent">
           <Icon as={FaEllipsisV} color="gray.400" cursor="pointer" />

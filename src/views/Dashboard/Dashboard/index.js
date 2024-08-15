@@ -134,7 +134,7 @@ export default function Dashboard() {
 
       <Grid
         templateColumns={{ sm: "1fr", lg: "1fr" }}
-        templateRows={{ sm: "repeat(2, 1fr)", lg: "1fr" }}
+        templateRows={{ sm: "repeat(1, 1fr)", lg: "1fr" }}
         gap='24px'
         my='0px'
         mb={{ lg: "26px" }}>
@@ -143,10 +143,14 @@ export default function Dashboard() {
           percentage={1}
           activeButton={activeButton}
         />
-       
+        
       </Grid>
 
-      
+      {/*<DataOverview
+        title={"Number of Trips Completed"}
+        percentage={1}
+        activeButton={activeButton}
+        />*/}
 
       <Grid
         templateColumns={{ sm: "1fr", lg: "1.5fr 1.5fr" }}
@@ -181,6 +185,7 @@ export default function Dashboard() {
         />
       </Grid>
       
+      <Tables />
     </Flex>
   );
 }
