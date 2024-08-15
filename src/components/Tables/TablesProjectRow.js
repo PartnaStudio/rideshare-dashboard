@@ -38,23 +38,17 @@ function DashboardTableRow(props) {
   const totalPossibleTrips = 100; // Or fetch this value from your data
   const progression = useMemo(() => (completedTrips / totalPossibleTrips) * 100, [completedTrips]); 
   const tableData = {
-    id: id || '-', // If 'id' is undefined, use '-' instead
+    cityLocation: cityLocation || '-',
+    type: seoCategory || '-',
+    year: year || '-',
     make: make || '-',
     model: model || '-',
-    year: year || '-',
-    type: type || '-',
     avgDailyAmount: avgDailyAmount || '-',
-    cityLocation: cityLocation || '-',
-    availability: availability || '-',
-    unlimitedMiles: unlimitedMiles ? "Yes" : "No",
     completedTrips: completedTrips || '-',
-    estimatedQuote: estimatedQuote || '-',
     rating: rating || '-',
-    hostId: hostId || '-',
     isAllStarHost: isAllStarHost ? "Yes" : "No",
-    isFavoritedBySearcher: isFavoritedBySearcher ? "Yes" : "No",
     isNewListing: isNewListing ? "Yes" : "No",
-    seoCategory: seoCategory || '-'
+    unlimitedMiles: unlimitedMiles ? "Yes" : "No",
 };
 
   return (

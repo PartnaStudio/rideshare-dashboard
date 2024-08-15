@@ -185,7 +185,7 @@ export default function Dashboard() {
         />
       </Grid>
       
-      <Tables />
+      <Tables fullKeys={CategoryList}/>
     </Flex>
   );
 }

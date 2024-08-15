@@ -6,8 +6,9 @@ import Projects from "./components/Projects";
 import { tablesTableData, dashboardTableData } from "../../../variables/general";
 import turoData from '../../../data/elevated_miami_data.json';
 
-function Tables() {
-  console.log("Rental Car Data",Object.keys(turoData.turo_data.rental_data))
+function Tables(fullKeys) {
+  // console.log("Rental Car Data",Object.keys(turoData.turo_data.rental_data))
+  console.log(fullKeys)
   return (
     <Flex direction='column' pt={{ base: "120px", md: "75px" }}>
       {/*<Authors
@@ -16,8 +17,20 @@ function Tables() {
         data={tablesTableData}
       />*/}
       <Projects
-        title={"All Data View"}
-        captions={Object.keys(turoData.turo_data.rental_data)}
+        title={""}
+        captions={ 
+          ['cityLocation',
+            'type',
+            'year',
+            'make',
+            'model',
+            'avgDailyAmount',
+            'completedTrips',
+            'rating',
+            'isAllStarHost',
+            'isNewListing',
+            'unlimitedMiles']
+        }
         data={turoData.turo_data.rental_data}
       />
     </Flex>
@@ -25,3 +38,4 @@ function Tables() {
 }
 
 export default Tables;
+

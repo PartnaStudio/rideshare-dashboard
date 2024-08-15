@@ -21,33 +21,25 @@ const Projects = ({ title, captions, data }) => {
 
   const rowData = [];
 
-  for (let rowIndex = 0; ;rowIndex++) {
-      const row = {};
-      let hasDataInRow = false; // Flag to check if the row has any non-undefined values
-
-      for (const [columnName, columnValues] of Object.entries(data)) {
-          if (columnValues[rowIndex] !== undefined) {
-              hasDataInRow = true;
-              row[columnName] = columnValues[rowIndex];
-              
-          } else {
-              // Replace undefined with '-' or 0 based on column type
-              row[columnName] = (typeof columnValues[0] === 'number' ? 0 : '-'); 
-            }
-      }
-
-      if (hasDataInRow) {
-          rowData.push(row);
+  function transposeToRow(data, rowIndex) {
+    const row = {};
+    let hasDataInRow = false;
+  
+    for (const [columnName, columnValues] of Object.entries(data)) {
+      if (columnValues[rowIndex] !== undefined) {
+        hasDataInRow = true; // Set to true only if a non-undefined value is found
+        row[columnName] = columnValues[rowIndex];
       } else {
-          // If all values in the row are undefined, we've reached the end
-          break;
+        row[columnName] = (typeof columnValues[0] === 'number' ? 0 : '-'); 
       }
+    }
+  
+    return hasDataInRow ? row : null; 
   }
 
-  console.log("Original data:", data);
 
   return (
-    <Card my='22px' overflowX={{ sm: "scroll", xl: "hidden" }}>
+    <Card my='22px' overflowX={{ sm: "scroll", xl: "scroll" }} overflowY={{ sm: "scroll", xl: "scroll" }}>
       <CardHeader p='6px 0px 22px 0px'>
         <Flex direction='column'>
           <Text fontSize='lg' color={textColor} fontWeight='bold' pb='.5rem'>
@@ -69,27 +61,30 @@ const Projects = ({ title, captions, data }) => {
             </Tr>
           </Thead>
           <Tbody>
-            {rowData.slice(0,10).map((row, index) => {
+            {Object.keys(data).slice(0,10).map((_, index) => {
+              const row = transposeToRow(data, index);
+              console.log(row)
               return (
                 <DashboardTableRow
-                  key={`${row.id}-${index}`}
-                  availability={row.availability}
-                  completedTrips={row.completedTrips}
-                  estimatedQuote={row.estimatedQuote} 
-                  hostId={row.hostId}
-                  id={row.id} 
-                  isAllStarHost={row.isAllStarHost} 
-                  isFavoritedBySearcher={row.isFavoritedBySearcher} 
-                  isNewListing={row.isNewListing} 
-                  make={row.make} 
-                  model={row.model} 
-                  rating={row.rating} 
-                  seoCategory={row.seoCategory} 
-                  type={row.type} 
-                  year={row.year} 
-                  avgDailyAmount={row.avgDailyAmount} 
-                  cityLocation={row.cityLocation} 
-                  unlimitedMiles={row.unlimitedMiles} 
+                  {...row}
+                  key={`${index}`}
+                  availability={row?.availability}
+                  completedTrips={row?.completedTrips}
+                  estimatedQuote={row?.estimatedQuote} 
+                  hostId={row?.hostId}
+                  id={row?.id} 
+                  isAllStarHost={row?.isAllStarHost} 
+                  isFavoritedBySearcher={row?.isFavoritedBySearcher} 
+                  isNewListing={row?.isNewListing} 
+                  make={row?.make} 
+                  model={row?.model} 
+                  rating={row?.rating} 
+                  seoCategory={row?.seoCategory} 
+                  type={row?.type} 
+                  year={row?.year} 
+                  avgDailyAmount={row?.avgDailyAmount} 
+                  cityLocation={row?.cityLocation} 
+                  unlimitedMiles={row?.unlimitedMiles} 
                 />
               );
             })}
