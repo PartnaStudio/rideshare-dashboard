@@ -106,10 +106,10 @@ const DataOverview = ({ title, percentage, activeButton }) => {
     <Card p='10px' mb={{ sm: "26px", lg: "0px" }}>
       {isLoading ? (
         <div>Loading...</div>
-      ):(<Box w={{ sm: "100%", md: '100%', lg: "100%" }} h={{ sm: "220px", md: '300px', lg: "220px" }} ps='8px'>
+      ):(<Box w={{ sm: "100%", md: '100%', lg: "100%" }} h={{ sm: "220px", md: '300px', lg: "465px" }} ps='8px'>
       
       <Grid
-        templateColumns={{ sm: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(5, 1fr)" }}
+        templateColumns={{ sm: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(2, 1fr)" }}
         templateRows={{ sm: "repeat(3, 1fr)", lg: "1fr" }}
         gap='24px'
         my='0px'
@@ -147,13 +147,13 @@ const DataOverview = ({ title, percentage, activeButton }) => {
           )}
           labels={[labelName[0], `Year Breakdown`]}
         />
-        <PieChart
+        {/*<PieChart
           value_set_one={simplePieChartData[0].data || []}
           chart_options={summaruPieChartOptions(
             labelName 
           )}
           labels={[labelName[0], `Type Breakdown`]}
-        />
+        />*/}
         </>
         )}
         </>

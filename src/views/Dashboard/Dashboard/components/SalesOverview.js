@@ -108,9 +108,9 @@ const SalesOverview = ({ title, percentage, activeButton }) => {
   
   return (
     <Card p='10px' mb={{ sm: "26px", lg: "0px" }}>
-      <Box w='100%' h={{ sm: "675px", md: "330px",lg: "150px" }} ps='8px'>
+      <Box w='100%' h={{ sm: "675px", md: "330px",lg: "330px" }} ps='8px'>
       <Grid
-        templateColumns={{ sm: "repeat(1, 1fr)",md: "repeat(2, 1fr)", lg: "repeat(4, 1fr)" }}
+        templateColumns={{ sm: "repeat(1, 1fr)",md: "repeat(2, 1fr)", lg: "repeat(2, 1fr)" }}
         templateRows={{ sm: "repeat(4, 1fr)", lg: "1fr" }}
         gap='24px'
         my='0px'

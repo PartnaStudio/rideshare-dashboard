@@ -4,7 +4,7 @@ import MarkerCluster from "./Clusters";
 import 'leaflet/dist/leaflet.css';
 
 const position = [51.505, -0.09];
-const mapStyle = { height: '25vh', width: '75vw' };
+const mapStyle = { height: '95vh', width: '50vw', borderRadius: '1.25%' };
 
 const Leaflet = () => {
 const mapRef = useRef();
@@ -37,3 +37,4 @@ const mapRef = useRef();
 };
 
 export default Leaflet;
+

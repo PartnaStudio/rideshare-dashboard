@@ -8,13 +8,13 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 // Custom components
-import Card from "components/Card/Card.js";
-import CardBody from "components/Card/CardBody.js";
-import IconBox from "components/Icons/IconBox";
+import Card from "../../../../components/Card/Card.js";
+import CardBody from "../../../../components/Card/CardBody.js";
+import IconBox from "../../../../components/Icons/IconBox";
 import React from "react";
 
 const MiniStatistics = ({ title, amount, percentage, icon }) => {
-  const iconTeal = useColorModeValue("blue.300", "blue.300");
+  const iconTeal = useColorModeValue("linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)", "linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)");
   const textColor = useColorModeValue("gray.700", "white");
 
   return (

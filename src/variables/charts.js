@@ -18,6 +18,9 @@ export const summaruPieChartOptions = (categories) => ({
     show: true,
     display: true,
     position: 'top', // Match the BarChart legend position
+    labels: {
+      colors: ['#fff','#fff','#fff','#fff','#fff','#fff'], // Set legend text color to white
+    },
   },
   dataLabels: {
     enabled: false, // Disable data labels on slices, similar to BarChart

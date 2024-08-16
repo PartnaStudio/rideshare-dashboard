@@ -48,7 +48,7 @@ function PieChart({ value_set_one, chart_options, labels }) { // Destructure dat
       py="1rem"
       height={{ sm: "220px", md: "300px", lg: "220px" }}
       width="100%"
-      bg="blue.300"
+      bg="linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)"
       position="relative"
     >
       <Flex direction="row" mt={0} padding={0} marginBottom={0}> {/* Adjust margin as needed */}
