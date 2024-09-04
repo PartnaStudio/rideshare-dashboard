@@ -1,0 +1,16 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: partnastudio
+# serverless.yml
+service: my-serverless-app
+
+provider:
+  name: aws
+  runtime: python3.9
+
+functions:
+  hello:
+    handler: handler.lambda_handler
+    events:
+      - http:
+          path: /hello
+          method: get

@@ -18,19 +18,19 @@ const MiniStatistics = ({ title, amount, percentage, icon }) => {
   const textColor = useColorModeValue("gray.700", "white");
 
   return (
-    <Card minH='83px'>
+    <Card minH='30px' w='175.0px'>
       <CardBody>
         <Flex flexDirection='row' align='center' justify='center' w='100%'>
-          <Stat me='auto'>
+          <Stat>
             <StatLabel
-              fontSize='sm'
+              fontSize='xs'
               color='gray.400'
               fontWeight='bold'
               pb='.1rem'>
               {title}
             </StatLabel>
             <Flex>
-              <StatNumber fontSize='lg' color={textColor}>
+              <StatNumber fontSize='md' color={textColor}>
                 {amount}
               </StatNumber>
               <StatHelpText
@@ -40,12 +40,12 @@ const MiniStatistics = ({ title, amount, percentage, icon }) => {
                 color={percentage > 0 ? "blue.400" : "red.400"}
                 fontWeight='bold'
                 ps='3px'
-                fontSize='md'>
+                fontSize='sm'>
                 {percentage > 0 ? `${percentage} trips` : `${percentage} trips`}
               </StatHelpText>
             </Flex>
           </Stat>
-          <IconBox as='div' h={"45px"} w={"45px"} bg={iconTeal}>
+          <IconBox as='div' h={"30px"} w={"30px"} bg={iconTeal}>
             {icon}
           </IconBox>
         </Flex>

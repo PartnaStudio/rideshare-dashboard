@@ -10,7 +10,11 @@ import BarChartOld from "components/Charts/BarChartOld";
 import turoData from '../../../../data/elevated_miami_data.json';
 import PieChart from "components/Charts/PieChart";
 
-const SalesOverview = ({ title, percentage, activeButton }) => {
+const SalesOverview = ({ 
+  title, percentage, 
+  activeButton, makeData,
+  yearData, modelData, typeData
+ }) => {
   const textColor = useColorModeValue("gray.700", "white");
   
   const [dailyAmount, setDailyAmount] = useState(0);
@@ -26,16 +30,8 @@ const SalesOverview = ({ title, percentage, activeButton }) => {
 
   useEffect(() => {
     if (turoData && turoData.turo_data && turoData.turo_data.rankings) {
-      let currentMakeRanking;
-      let currentModelRanking;
-      let currentTypeRanking;
-      let currentYearRanking;
       let turoBase;
-      // Dynamically access the ranking property based on activeButton
-      currentMakeRanking = turoData.turo_data.rankings[`pop_make`];
-      currentModelRanking = turoData.turo_data.rankings[`pop_model`];
-      currentTypeRanking = turoData.turo_data.rankings[`pop_type`];
-      currentYearRanking = turoData.turo_data.rankings[`pop_year`];
+
       turoBase = turoData.turo_data.rental_data;
       if (!turoBase) {
         console.error("Invalid activeButton or missing ranking data:", activeButton);
@@ -55,48 +51,61 @@ const SalesOverview = ({ title, percentage, activeButton }) => {
         ? avgDailyAmountArr.reduce((sum, value) => sum + parseFloat(value), 0) / avgDailyAmountArr.length
         : 0; 
 
-        const avgAvg = (dailyAmount?.length > 0) 
-        ? dailyAmount.reduce((sum, value) => sum + parseFloat(value), 0) / dailyAmount.length 
+        const avgAvg = (averageDailyAmount?.length > 0) 
+        ? averageDailyAmount.reduce((sum, value) => sum + parseFloat(value), 0) / averageDailyAmount.length 
         : 30;
       setDailyAmount(avgAvg)
       setSimpleBarChartData([
         {
           name: "Trip Count",
-          data: Object.values([currentMakeRanking?.avgDailyRate[0]
+          data: Object.values([makeData[0]?.avgDailyRate
             ] || []),
         },
       ]);
       setModelSimpleBarChartData([
         {
           name: "Trip Count",
-          data: Object.values([currentModelRanking?.avgDailyRate
-            [0]] || []),
+          data: Object.values([modelData[0]?.avgDailyRate
+            ] || []),
         },
       ]);
       setTypeSimpleBarChartData([
         {
           name: "Trip Count",
-          data: Object.values([currentTypeRanking?.avgDailyRate
-            [0]] || []),
+          data: Object.values([typeData[0]?.avgDailyRate
+           ] || []),
         },
       ]);
       setYearSimpleBarChartData([
         {
           name: "Trip Count",
-          data: Object.values([currentYearRanking?.avgDailyRate
-            [0]] || []),
+          data: Object.values([yearData[0]?.avgDailyRate
+            ] || []),
         },
       ]);
 
-      const values = Object.values(currentMakeRanking?.make || {}); // Provide an empty object as default
-      const Yearvalues = Object.values(currentYearRanking?.year || {});
-      const Typevalues = Object.values(currentTypeRanking?.type || {});
-      const Modelvalues = Object.values(currentModelRanking?.model || {});
+      const values = makeData.map(item => ({
+        make: item.make,
+        avgDailyRate: item.avgDailyRate
+      }));
+      const Yearvalues = yearData.map(item => ({
+        year: item.year,
+        avgDailyRate: item.avgDailyRate
+      }));
+      const Typevalues = typeData.map(item => ({
+        type: item.type,
+        avgDailyRate: item.avgDailyRate
+      }));
+      const Modelvalues = modelData.map(item => ({
+        model: item.model,
+        avgDailyRate: item.avgDailyRate
+      }));
       if (values.length > 0) {
-          setLabelName([values[0]]);
-          setYearLabelName([Yearvalues[0]]);
-          setTypeLabelName([Typevalues[0]]);
-          setModelLabelName([Modelvalues[0]]);
+
+          setLabelName([Object.values(values[0])]);
+          setYearLabelName([Object.values(Yearvalues[0])]);
+          setTypeLabelName([Object.values(Typevalues[0])]);
+          setModelLabelName([Object.values(Modelvalues[0])]);
       } else {
           // Handle the case where there are no values
           console.error("No values found in currentRanking[activeButton]");

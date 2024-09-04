@@ -5,53 +5,54 @@ import isEqual from "lodash.isequal";
 
 import MarkerClusterContainer from "./MarkerClusterContainer.js";
 import { useMap } from "react-leaflet";
+import { getFilteredMarkers } from "./functions.js";
 
 
 
-const DEF_BOUNDS = latLng([51.505, -0.09]).toBounds(5000);
+
 
 export function MapRef({
   width,
   height,
-  onMarkerClick: setSelected,
-  selected,
+  onMarkerClicks,
+  setSelected,
   markers,
   setMarkers,
 }) {
-  const mapRef = useMap();
-  console.log("MapRef - mapRef:", mapRef);
+  const mapReference = useMap();
+  const DEF_BOUNDS = latLng([26.0380, -80.2101]).toBounds(5000);
   const bounds = React.useRef(DEF_BOUNDS);
 
-  const onMarkerClick = React.useCallback(
+  const whenMarkerClicked = React.useCallback(
     (id, pos) => {
-      onMarkerClick(id);
-      setMarkers((prevMarkers) =>
-        prevMarkers.map((marker) => ({
-          ...marker,
-          selected: marker.id === id || marker.selected
-        }))
-      );
-      if (mapRef) {
+      const updatedMarkers = markers.map((marker) => ({
+        ...marker,
+        selected: marker.id === id ? !marker.selected : marker.selected,
+      }));
+  
+      setSelected(getFilteredMarkers(updatedMarkers))
+      if (mapReference) {
         let newBounds = DEF_BOUNDS;
         newBounds = latLng(pos).toBounds(1500);
-        if (!isEqual(newBounds, bounds?.current)) {
+        // Adjust this value if needed
+        if (!isEqual(isEqual(newBounds, bounds.current))) { // Double check isEqual usage
           bounds.current = newBounds;
-          mapRef.fitBounds(newBounds);
+          mapReference.fitBounds(newBounds);
         }
       }
     },
-    [mapRef, onMarkerClick]
+    [mapReference] // Only re-create if mapRef changes
   );
-  
 
+  
   return (
     <>
       <MarkerClusterContainer
-        mapRef={mapRef}
+        mapRef={mapReference}
         width={width}
         height={height}
         markers={markers}
-        onMarkerClick={onMarkerClick}
+        onMarkerClick={whenMarkerClicked}
       />
     </>
   );

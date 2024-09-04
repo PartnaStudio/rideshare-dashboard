@@ -1,10 +1,12 @@
 import * as React from "react";
 import { latLng, latLngBounds } from "leaflet";
-//import { useMap } from "react-leaflet";
 import isEqual from "lodash.isequal";
-
 import MarkerClusterContainer from "./MarkerClusterContainer.js";
 import { useMap } from "react-leaflet";
+
+
+
+
 
 export const generateMarkers = (count) => {
   const southWest = new latLng(30.0, -20.0);
@@ -28,5 +30,9 @@ export const generateMarkers = (count) => {
   });
   return result;
 };
+export const MARKERS = generateMarkers(10);
+export const getFilteredMarkers = (markers) => {
+  return markers.filter(marker => marker.selected);
+};
 
-export const MARKERS = generateMarkers(50);
+

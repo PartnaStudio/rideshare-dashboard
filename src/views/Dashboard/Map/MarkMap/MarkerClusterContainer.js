@@ -1,6 +1,6 @@
 import * as React from "react";
 import { MarkerContainer } from "./MarkerContainer";
-import { MarkerClusterGroup } from "leaflet.markercluster";
+import MarkerClusterer from "./MarkerClusterMaker";
 
 function MarkerClusterContainer({
   mapRef,
@@ -28,15 +28,17 @@ function MarkerClusterContainer({
   
 
   const markerComponents = React.useMemo(() => {
-    console.log("recomputing whole thing");
+    console.log("About to Render: ",markers);
     return markers.map((marker) => {
       return (
         <MemoizedMarkerContainer
-          position={marker.pos}
-          key={marker.id}
-          id={marker.id}
+          position={marker?.pos}
+          key={marker?.id}
+          id={marker?.id}
+          city={marker?.city}
+          population={marker?.population}
           onMarkerClick={onMarkerClick}
-          selected={marker.selected}
+          selected={marker?.selected}
         />
       );
     });
@@ -48,7 +50,9 @@ function MarkerClusterContainer({
 
   return (
     <>
+    <MarkerClusterer>
       {markerComponents}
+      </MarkerClusterer>
     </>
   );
 }
